@@ -52,6 +52,8 @@ export function CreateWallet({ onSubmit, onBack, loading, error }: CreateWalletP
             minLength={8}
             required
             autoFocus
+            autoComplete="new-password"
+            spellCheck={false}
           />
         </div>
 
@@ -66,6 +68,8 @@ export function CreateWallet({ onSubmit, onBack, loading, error }: CreateWalletP
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
             required
+            autoComplete="new-password"
+            spellCheck={false}
           />
           {confirm && !passwordsMatch && (
             <p className="text-red-400 text-sm mt-1">Passwords do not match</p>

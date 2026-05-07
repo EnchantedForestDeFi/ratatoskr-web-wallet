@@ -7,6 +7,11 @@ import routes from './routes';
 const app = express();
 const PORT = parseInt(process.env.PORT || '3001', 10);
 
+// Trust the reverse proxy in front of us (vps1 edge nginx -> vps2 inner nginx -> Express).
+// This makes req.ip and X-Forwarded-For work correctly so rate-limiting keys on the real
+// client IP, not on 127.0.0.1 (which would let one bad actor exhaust everyone's quota).
+app.set('trust proxy', 1);
+
 const ALLOWED_ORIGIN = process.env.CORS_ORIGIN || 'https://wallet.ratatoskr.enchantedforestdefi.com';
 
 // Security headers

@@ -30,17 +30,35 @@ export function ImportWallet({ onImport, onBack, loading, error }: ImportWalletP
         </p>
       </div>
 
+      {/* Mobile/clipboard safety warning - phrase entry is high-risk */}
+      <div className="bg-yellow-900/20 border border-yellow-700/50 rounded-xl p-3 text-yellow-200/90 text-xs">
+        Type your phrase carefully or paste from a trusted source.
+        Anything in your clipboard could be read by malicious software —
+        clear it after pasting.
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-dark-300 mb-2">
             Recovery Phrase (12 words)
           </label>
+          {/*
+            CRITICAL: spellCheck=false prevents iOS/Safari and Chromium browsers
+            from sending the phrase to remote spellcheck servers.
+            autoCorrect=off prevents iOS from silently mutating "abandon" -> "Abandon".
+            autoCapitalize=none prevents iOS from capitalizing the first letter.
+            autoComplete=off prevents browser saved-form suggestions for this field.
+          */}
           <textarea
             className="input-field h-24 resize-none font-mono text-sm"
             placeholder="word1 word2 word3 ..."
             value={mnemonic}
             onChange={(e) => setMnemonic(e.target.value.toLowerCase())}
             autoFocus
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="none"
+            spellCheck={false}
           />
           <p className="text-dark-500 text-xs mt-1">
             {wordCount}/12 words
@@ -58,6 +76,8 @@ export function ImportWallet({ onImport, onBack, loading, error }: ImportWalletP
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             minLength={8}
+            autoComplete="new-password"
+            spellCheck={false}
           />
         </div>
 
@@ -71,6 +91,8 @@ export function ImportWallet({ onImport, onBack, loading, error }: ImportWalletP
             placeholder="Repeat your password"
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
+            autoComplete="new-password"
+            spellCheck={false}
           />
           {confirm && !passwordsMatch && (
             <p className="text-red-400 text-sm mt-1">Passwords do not match</p>

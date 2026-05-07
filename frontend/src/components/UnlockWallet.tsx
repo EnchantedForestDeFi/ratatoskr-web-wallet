@@ -37,6 +37,8 @@ export function UnlockWallet({ address, onUnlock, onLogout, loading, error }: Un
             onChange={(e) => setPassword(e.target.value)}
             required
             autoFocus
+            autoComplete="current-password"
+            spellCheck={false}
           />
         </div>
 
