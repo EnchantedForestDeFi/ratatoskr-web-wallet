@@ -2,6 +2,7 @@ import { Layout } from './components/Layout';
 import logoImg from './assets/logo.png';
 import { CreateWallet } from './components/CreateWallet';
 import { BackupMnemonic } from './components/BackupMnemonic';
+import { BackupVerify } from './components/BackupVerify';
 import { UnlockWallet } from './components/UnlockWallet';
 import { ImportWallet } from './components/ImportWallet';
 import { Dashboard } from './components/Dashboard';
@@ -78,7 +79,16 @@ function App() {
         return wallet.mnemonic ? (
           <BackupMnemonic
             mnemonic={wallet.mnemonic}
-            onConfirm={() => wallet.setView('unlock')}
+            onConfirm={() => wallet.setView('create-verify')}
+          />
+        ) : null;
+
+      case 'create-verify':
+        return wallet.mnemonic ? (
+          <BackupVerify
+            mnemonic={wallet.mnemonic}
+            onSuccess={() => wallet.setView('unlock')}
+            onRetry={() => wallet.setView('create-backup')}
           />
         ) : null;
 

@@ -14,6 +14,7 @@ export type WalletView =
   | 'landing'
   | 'create'
   | 'create-backup'
+  | 'create-verify'
   | 'import'
   | 'unlock'
   | 'dashboard'
