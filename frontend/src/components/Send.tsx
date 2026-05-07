@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { buildTransaction, ratrToSatoshis, satoshisToRatr } from '../lib/transaction';
 import { broadcastTx } from '../lib/api';
 import { COIN } from '../lib/network';
+import { isTestnet } from '../lib/network';
 import type { BalanceResponse } from '../lib/api';
 
 interface SendProps {
@@ -22,6 +23,7 @@ export function Send({ address, privateKey, balance, onDone }: SendProps) {
 
   const maxAmount = balance ? balance.balance / COIN : 0;
   const ADDRESS_RE = /^[Ry][1-9A-HJ-NP-Za-km-z]{25,34}$/;
+  const placeholderAddr = isTestnet ? 'y...' : 'R...';
 
   const isValidForm =
     ADDRESS_RE.test(toAddress) &&
@@ -86,6 +88,20 @@ export function Send({ address, privateKey, balance, onDone }: SendProps) {
       <div className="space-y-6">
         <h2 className="text-2xl font-bold">Confirm Transaction</h2>
 
+        {/* IRREVERSIBILITY WARNING — prominent before final commit */}
+        <div className="bg-red-900/30 border-2 border-red-700/60 rounded-xl p-4 flex items-start gap-3">
+          <svg className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          <div>
+            <p className="text-red-300 font-semibold text-sm">This action is irreversible.</p>
+            <p className="text-red-200/80 text-xs mt-1">
+              Once sent, RATR cannot be recalled or refunded. Double-check the recipient address character-by-character.
+            </p>
+          </div>
+        </div>
+
         <div className="card space-y-4">
           <div>
             <p className="text-dark-400 text-xs">To</p>
@@ -113,7 +129,7 @@ export function Send({ address, privateKey, balance, onDone }: SendProps) {
           </button>
           <button
             onClick={handleConfirm}
-            className="btn-primary flex-1"
+            className="btn-parchment flex-1"
             disabled={step === 'sending'}
           >
             {step === 'sending' ? 'Sending...' : 'Confirm & Send'}
@@ -126,6 +142,12 @@ export function Send({ address, privateKey, balance, onDone }: SendProps) {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold">Send RATR</h2>
+
+      {/* Pre-send irreversibility callout — visible during input */}
+      <div className="bg-yellow-900/20 border border-yellow-700/50 rounded-xl p-3 text-yellow-200/90 text-xs">
+        <strong className="text-yellow-300">Sending RATR is irreversible.</strong> Verify the recipient address
+        character-by-character before confirming. RATR sent to a wrong address cannot be recovered.
+      </div>
 
       <form
         onSubmit={(e: React.FormEvent) => {
@@ -141,7 +163,7 @@ export function Send({ address, privateKey, balance, onDone }: SendProps) {
           <input
             type="text"
             className="input-field font-mono text-sm"
-            placeholder="S..."
+            placeholder={placeholderAddr}
             value={toAddress}
             onChange={(e) => setToAddress(e.target.value.trim())}
             autoFocus

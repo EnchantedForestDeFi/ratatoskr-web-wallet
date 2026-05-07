@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../assets/logo.png';
+import { isTestnet } from '../lib/network';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -28,6 +29,24 @@ export function Layout({
           <div className="flex items-center gap-3">
             <img src={logo} alt="Ratatoskr" className="w-9 h-9 rounded-lg" />
             <span className="font-bold text-lg">Ratatoskr</span>
+            {/* Network badge — always visible so users know which chain they're on */}
+            {isTestnet ? (
+              <span
+                className="px-2 py-0.5 text-xs font-bold uppercase tracking-wide rounded-md
+                           bg-yellow-500/20 text-yellow-300 border border-yellow-700/60"
+                title="You are on the Ratatoskr TESTNET. Coins here have no real value."
+              >
+                Testnet
+              </span>
+            ) : (
+              <span
+                className="px-2 py-0.5 text-xs font-bold uppercase tracking-wide rounded-md
+                           bg-ratr-500/20 text-ratr-300 border border-ratr-700/60"
+                title="Ratatoskr Mainnet"
+              >
+                Mainnet
+              </span>
+            )}
           </div>
 
           {address && (

@@ -15,6 +15,16 @@
            transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
+  /* Parchment-pill — for high-stakes irreversible CTAs ("Confirm & Send", "I've Saved My Backup")
+     EFD apex aesthetic: gold + warm cream + pill-shape. Reserved for moments of consequence. */
+  .btn-parchment {
+    @apply bg-gold-500 hover:bg-gold-400 text-dark-900 font-bold py-3 px-8 rounded-full
+           border-2 border-gold-600
+           transition-all duration-200 active:scale-[0.98]
+           disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-gold-500
+           shadow-lg shadow-gold-500/20;
+  }
+
   .btn-secondary {
     @apply bg-dark-800 hover:bg-dark-700 text-gray-200 font-semibold py-3 px-6 rounded-xl
            border border-dark-600 transition-all duration-200 active:scale-[0.98];

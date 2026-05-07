@@ -6,9 +6,12 @@ interface BackupMnemonicProps {
 }
 
 export function BackupMnemonic({ mnemonic, onConfirm }: BackupMnemonicProps) {
-  const [confirmed, setConfirmed] = useState(false);
+  const [confirmed1, setConfirmed1] = useState(false);
+  const [confirmed2, setConfirmed2] = useState(false);
+  const [confirmed3, setConfirmed3] = useState(false);
   const [copied, setCopied] = useState(false);
   const words = mnemonic.split(' ');
+  const allConfirmed = confirmed1 && confirmed2 && confirmed3;
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(mnemonic);
@@ -51,24 +54,54 @@ export function BackupMnemonic({ mnemonic, onConfirm }: BackupMnemonicProps) {
         </button>
       </div>
 
-      <label className="flex items-start gap-3 cursor-pointer">
-        <input
-          type="checkbox"
-          className="mt-1 w-4 h-4 rounded border-dark-600 bg-dark-800 text-ratr-500
-                     focus:ring-ratr-500 focus:ring-offset-0"
-          checked={confirmed}
-          onChange={(e) => setConfirmed(e.target.checked)}
-        />
-        <span className="text-sm text-dark-300">
-          I have written down these 12 words and stored them in a safe place.
-          I understand that losing these words means losing access to my funds.
-        </span>
-      </label>
+      {/* Three explicit confirmation gates — escalates from SMT's single checkbox */}
+      <div className="space-y-3">
+        <label className="flex items-start gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            className="mt-1 w-4 h-4 rounded border-dark-600 bg-dark-800 text-ratr-500
+                       focus:ring-ratr-500 focus:ring-offset-0"
+            checked={confirmed1}
+            onChange={(e) => setConfirmed1(e.target.checked)}
+          />
+          <span className="text-sm text-dark-300">
+            I have written down these 12 words <strong className="text-white">in order</strong> and stored them somewhere safe (paper, metal backup, or password manager).
+          </span>
+        </label>
+
+        <label className="flex items-start gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            className="mt-1 w-4 h-4 rounded border-dark-600 bg-dark-800 text-ratr-500
+                       focus:ring-ratr-500 focus:ring-offset-0"
+            checked={confirmed2}
+            onChange={(e) => setConfirmed2(e.target.checked)}
+          />
+          <span className="text-sm text-dark-300">
+            I understand that <strong className="text-yellow-300">if I lose these words, my funds are permanently lost</strong>.
+            No one — not EnchantedForestDeFi, not the Ratatoskr team, not anyone — can recover them.
+          </span>
+        </label>
+
+        <label className="flex items-start gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            className="mt-1 w-4 h-4 rounded border-dark-600 bg-dark-800 text-ratr-500
+                       focus:ring-ratr-500 focus:ring-offset-0"
+            checked={confirmed3}
+            onChange={(e) => setConfirmed3(e.target.checked)}
+          />
+          <span className="text-sm text-dark-300">
+            I will <strong className="text-red-300">never share</strong> these words with anyone, including support staff.
+            Anyone asking for them is trying to steal my RATR.
+          </span>
+        </label>
+      </div>
 
       <button
         onClick={onConfirm}
-        disabled={!confirmed}
-        className="btn-primary w-full"
+        disabled={!allConfirmed}
+        className="btn-parchment w-full"
       >
         I've Saved My Backup
       </button>
