@@ -1,3 +1,28 @@
+import * as fs from 'fs';
+import * as path from 'path';
+
+// Load .env (manual; mirrors the bridge relayer pattern; avoids dotenv dep).
+const envPath = path.resolve(__dirname, '..', '.env');
+if (fs.existsSync(envPath)) {
+  for (const line of fs.readFileSync(envPath, 'utf-8').split('\n')) {
+    const t = line.trim();
+    if (t && !t.startsWith('#')) {
+      const eq = t.indexOf('=');
+      if (eq > 0) {
+        const k = t.substring(0, eq).trim();
+        let v = t.substring(eq + 1).trim();
+        if (
+          (v.startsWith('"') && v.endsWith('"')) ||
+          (v.startsWith("'") && v.endsWith("'"))
+        ) {
+          v = v.slice(1, -1);
+        }
+        if (!process.env[k]) process.env[k] = v;
+      }
+    }
+  }
+}
+
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -6,6 +31,7 @@ import routes from './routes';
 
 const app = express();
 const PORT = parseInt(process.env.PORT || '3001', 10);
+const BIND_HOST = process.env.BIND_HOST || '0.0.0.0';
 
 // Trust the reverse proxy in front of us (vps1 edge nginx -> vps2 inner nginx -> Express).
 // This makes req.ip and X-Forwarded-For work correctly so rate-limiting keys on the real
@@ -56,6 +82,6 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok' });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Wallet API running on port ${PORT}`);
+app.listen(PORT, BIND_HOST, () => {
+  console.log(`Wallet API running on ${BIND_HOST}:${PORT}`);
 });
