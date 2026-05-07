@@ -1,0 +1,13 @@
+{
+  "name": "Ratatoskr Wallet",
+  "short_name": "Ratatoskr",
+  "description": "Non-custodial RATR wallet",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#020617",
+  "theme_color": "#0f172a",
+  "icons": [
+    { "src": "/favicon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
