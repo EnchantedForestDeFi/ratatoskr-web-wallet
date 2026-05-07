@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { duffsToSmt } from '../lib/transaction';
+import { satoshisToRatr } from '../lib/transaction';
 import type { BalanceResponse } from '../lib/api';
 
 interface DashboardProps {
@@ -17,7 +17,7 @@ export function Dashboard({ address, balance, onRefresh, onSend, onReceive }: Da
     return () => clearInterval(interval);
   }, [onRefresh]);
 
-  const balanceSmt = balance ? duffsToSmt(balance.balance) : '---';
+  const balanceSmt = balance ? satoshisToRatr(balance.balance) : '---';
 
   return (
     <div className="space-y-6">
@@ -26,11 +26,11 @@ export function Dashboard({ address, balance, onRefresh, onSend, onReceive }: Da
         <p className="text-dark-400 text-sm mb-2">Total Balance</p>
         <h2 className="text-4xl font-bold tracking-tight">
           {balanceSmt}
-          <span className="text-lg text-dark-400 ml-2">SMT</span>
+          <span className="text-lg text-dark-400 ml-2">RATR</span>
         </h2>
         {balance && balance.received > 0 && (
           <p className="text-dark-500 text-sm mt-2">
-            Total received: {duffsToSmt(balance.received)} SMT
+            Total received: {satoshisToRatr(balance.received)} RATR
           </p>
         )}
       </div>
@@ -51,7 +51,7 @@ export function Dashboard({ address, balance, onRefresh, onSend, onReceive }: Da
         <p className="font-mono text-sm break-all text-dark-200">{address}</p>
         <button
           onClick={() => navigator.clipboard.writeText(address)}
-          className="text-smt-400 text-sm mt-2 hover:text-smt-300 transition-colors"
+          className="text-ratr-400 text-sm mt-2 hover:text-ratr-300 transition-colors"
         >
           Copy address
         </button>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { buildTransaction, smtToDuffs, duffsToSmt } from '../lib/transaction';
+import { buildTransaction, ratrToSatoshis, satoshisToRatr } from '../lib/transaction';
 import { broadcastTx } from '../lib/api';
 import { COIN } from '../lib/network';
 import type { BalanceResponse } from '../lib/api';
@@ -21,7 +21,7 @@ export function Send({ address, privateKey, balance, onDone }: SendProps) {
   const [txResult, setTxResult] = useState<{ txid: string; fee: number } | null>(null);
 
   const maxAmount = balance ? balance.balance / COIN : 0;
-  const ADDRESS_RE = /^[SR][1-9A-HJ-NP-Za-km-z]{25,34}$/;
+  const ADDRESS_RE = /^[Ry][1-9A-HJ-NP-Za-km-z]{25,34}$/;
 
   const isValidForm =
     ADDRESS_RE.test(toAddress) &&
@@ -33,11 +33,11 @@ export function Send({ address, privateKey, balance, onDone }: SendProps) {
     setError(null);
 
     try {
-      const amountDuffs = smtToDuffs(amount);
+      const amountSatoshis = ratrToSatoshis(amount);
       const tx = await buildTransaction({
         fromAddress: address,
         toAddress,
-        amountDuffs,
+        amountSatoshis,
         privateKey,
       });
 
@@ -63,15 +63,15 @@ export function Send({ address, privateKey, balance, onDone }: SendProps) {
         <div className="card text-left space-y-3">
           <div>
             <p className="text-dark-400 text-xs">Amount</p>
-            <p className="font-mono">{amount} SMT</p>
+            <p className="font-mono">{amount} RATR</p>
           </div>
           <div>
             <p className="text-dark-400 text-xs">Fee</p>
-            <p className="font-mono text-sm">{duffsToSmt(txResult.fee)} SMT</p>
+            <p className="font-mono text-sm">{satoshisToRatr(txResult.fee)} RATR</p>
           </div>
           <div>
             <p className="text-dark-400 text-xs">Transaction ID</p>
-            <p className="font-mono text-xs break-all text-smt-400">{txResult.txid}</p>
+            <p className="font-mono text-xs break-all text-ratr-400">{txResult.txid}</p>
           </div>
         </div>
         <button onClick={onDone} className="btn-primary w-full">
@@ -93,7 +93,7 @@ export function Send({ address, privateKey, balance, onDone }: SendProps) {
           </div>
           <div>
             <p className="text-dark-400 text-xs">Amount</p>
-            <p className="text-xl font-bold">{amount} SMT</p>
+            <p className="text-xl font-bold">{amount} RATR</p>
           </div>
         </div>
 
@@ -125,7 +125,7 @@ export function Send({ address, privateKey, balance, onDone }: SendProps) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Send SMT</h2>
+      <h2 className="text-2xl font-bold">Send RATR</h2>
 
       <form
         onSubmit={(e: React.FormEvent) => {
@@ -147,13 +147,13 @@ export function Send({ address, privateKey, balance, onDone }: SendProps) {
             autoFocus
           />
           {toAddress && !ADDRESS_RE.test(toAddress) && (
-            <p className="text-red-400 text-sm mt-1">Invalid Smartiecoin address</p>
+            <p className="text-red-400 text-sm mt-1">Invalid Ratatoskr address</p>
           )}
         </div>
 
         <div>
           <label className="block text-sm font-medium text-dark-300 mb-2">
-            Amount (SMT)
+            Amount (RATR)
           </label>
           <div className="relative">
             <input
@@ -169,13 +169,13 @@ export function Send({ address, privateKey, balance, onDone }: SendProps) {
             <button
               type="button"
               onClick={() => setAmount(maxAmount.toFixed(8))}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-smt-400 hover:text-smt-300"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ratr-400 hover:text-ratr-300"
             >
               MAX
             </button>
           </div>
           <p className="text-dark-500 text-xs mt-1">
-            Available: {maxAmount.toFixed(8)} SMT
+            Available: {maxAmount.toFixed(8)} RATR
           </p>
         </div>
 

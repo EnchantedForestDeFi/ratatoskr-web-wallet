@@ -3,21 +3,21 @@ version: "3.8"
 services:
   api:
     build: ./backend
-    container_name: smt-wallet-api
+    container_name: ratr-wallet-api
     restart: unless-stopped
     network_mode: host
     environment:
       - PORT=3001
       - RPC_HOST=127.0.0.1
       - RPC_PORT=8282
-      - RPC_USER=smt_rpc
+      - RPC_USER=ratr_rpc
       - RPC_PASS=${RPC_PASS}
-      - CORS_ORIGIN=https://wallet.smartiecoin.com
+      - CORS_ORIGIN=https://wallet.ratatoskr.enchantedforestdefi.com
       - EXPLORER_URL=http://127.0.0.1:8092
 
   frontend:
     image: nginx:alpine
-    container_name: smt-wallet-frontend
+    container_name: ratr-wallet-frontend
     restart: unless-stopped
     ports:
       - "127.0.0.1:3002:80"

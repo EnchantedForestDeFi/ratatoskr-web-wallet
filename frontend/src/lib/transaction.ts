@@ -2,7 +2,7 @@ import { Psbt, Transaction } from 'bitcoinjs-lib';
 import ECPairFactory, { type ECPairAPI } from 'ecpair';
 import * as ecc from 'tiny-secp256k1';
 import { Buffer } from 'buffer';
-import { smartiecoin, COIN, DEFAULT_FEE_RATE, API_BASE } from './network';
+import { ratatoskr, COIN, DEFAULT_FEE_RATE, API_BASE } from './network';
 import { fetchUtxos } from './api';
 
 let _ECPair: ECPairAPI | null = null;
@@ -15,7 +15,7 @@ function getECPair(): ECPairAPI {
 export interface ExplorerUTXO {
   txid: string;
   vout: number;
-  amount: number;       // in coins (not duffs)
+  amount: number;       // in coins (not satoshis)
   scriptPubKey: string;
 }
 
@@ -45,11 +45,11 @@ async function fetchRawTxHex(txid: string): Promise<string> {
 export async function buildTransaction(params: {
   fromAddress: string;
   toAddress: string;
-  amountDuffs: number;
+  amountSatoshis: number;
   privateKey: Uint8Array;
   feeRate?: number;
 }): Promise<{ hex: string; fee: number; txid: string }> {
-  const { fromAddress, toAddress, amountDuffs, privateKey, feeRate = DEFAULT_FEE_RATE } = params;
+  const { fromAddress, toAddress, amountSatoshis, privateKey, feeRate = DEFAULT_FEE_RATE } = params;
 
   // Fetch UTXOs for the sender
   const utxos: UTXO[] = await fetchUtxos(fromAddress);
@@ -73,16 +73,16 @@ export async function buildTransaction(params: {
     totalInput += utxo.satoshis;
     estimatedFee = estimateSize(selected.length, 2) * feeRate;
 
-    if (totalInput >= amountDuffs + estimatedFee) {
+    if (totalInput >= amountSatoshis + estimatedFee) {
       break;
     }
   }
 
-  if (totalInput < amountDuffs + estimatedFee) {
+  if (totalInput < amountSatoshis + estimatedFee) {
     const available = totalInput / COIN;
-    const needed = (amountDuffs + estimatedFee) / COIN;
+    const needed = (amountSatoshis + estimatedFee) / COIN;
     throw new Error(
-      `Insufficient funds. Available: ${available.toFixed(8)} SMT, Needed: ${needed.toFixed(8)} SMT (including fee)`
+      `Insufficient funds. Available: ${available.toFixed(8)} RATR, Needed: ${needed.toFixed(8)} RATR (including fee)`
     );
   }
 
@@ -97,10 +97,10 @@ export async function buildTransaction(params: {
 
   // Build the transaction using Psbt
   const keyPair = getECPair().fromPrivateKey(Buffer.from(privateKey), {
-    network: smartiecoin,
+    network: ratatoskr,
   });
 
-  const psbt = new Psbt({ network: smartiecoin });
+  const psbt = new Psbt({ network: ratatoskr });
 
   // Add inputs with nonWitnessUtxo for P2PKH
   for (const utxo of selected) {
@@ -114,11 +114,11 @@ export async function buildTransaction(params: {
   // Payment output
   psbt.addOutput({
     address: toAddress,
-    value: amountDuffs,
+    value: amountSatoshis,
   });
 
   // Change output (if change > dust threshold)
-  const change = totalInput - amountDuffs - estimatedFee;
+  const change = totalInput - amountSatoshis - estimatedFee;
   const DUST_THRESHOLD = 546;
 
   if (change > DUST_THRESHOLD) {
@@ -128,7 +128,7 @@ export async function buildTransaction(params: {
     });
   } else {
     // No change output, fee absorbs the dust
-    estimatedFee = totalInput - amountDuffs;
+    estimatedFee = totalInput - amountSatoshis;
   }
 
   // Sign all inputs
@@ -147,14 +147,14 @@ export async function buildTransaction(params: {
   };
 }
 
-// Format duffs to SMT display string
-export function duffsToSmt(duffs: number): string {
-  return (duffs / COIN).toFixed(8);
+// Format satoshis to RATR display string
+export function satoshisToRatr(satoshis: number): string {
+  return (satoshis / COIN).toFixed(8);
 }
 
-// Parse SMT string to duffs
-export function smtToDuffs(smt: string): number {
-  const value = parseFloat(smt);
+// Parse RATR string to satoshis
+export function ratrToSatoshis(ratr: string): number {
+  const value = parseFloat(ratr);
   if (isNaN(value) || value < 0) throw new Error('Invalid amount');
   return Math.round(value * COIN);
 }

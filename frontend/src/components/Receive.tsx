@@ -16,7 +16,7 @@ export function Receive({ address }: ReceiveProps) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Receive SMT</h2>
+      <h2 className="text-2xl font-bold">Receive RATR</h2>
 
       <div className="card flex flex-col items-center py-8 space-y-6">
         {/* QR Code */}
@@ -45,7 +45,7 @@ export function Receive({ address }: ReceiveProps) {
       </div>
 
       <p className="text-dark-500 text-sm text-center">
-        Share this address to receive Smartiecoin. Only send SMT to this address.
+        Share this address to receive Ratatoskr. Only send RATR to this address.
       </p>
     </div>
   );

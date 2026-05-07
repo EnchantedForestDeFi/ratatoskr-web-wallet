@@ -113,7 +113,7 @@ export function History({ address }: HistoryProps) {
                     {isReceived ? '+' : '-'}
                     {amount.toFixed(8)}
                   </p>
-                  <p className="text-dark-500 text-xs">SMT</p>
+                  <p className="text-dark-500 text-xs">RATR</p>
                 </div>
               </div>
             );

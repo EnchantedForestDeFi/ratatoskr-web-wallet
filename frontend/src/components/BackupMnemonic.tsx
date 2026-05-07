@@ -45,7 +45,7 @@ export function BackupMnemonic({ mnemonic, onConfirm }: BackupMnemonicProps) {
 
         <button
           onClick={handleCopy}
-          className="mt-4 w-full py-2.5 rounded-xl text-sm font-medium transition-colors border border-dark-600 hover:border-smt-500 hover:text-smt-400 text-dark-300"
+          className="mt-4 w-full py-2.5 rounded-xl text-sm font-medium transition-colors border border-dark-600 hover:border-ratr-500 hover:text-ratr-400 text-dark-300"
         >
           {copied ? 'Copied!' : 'Copy recovery phrase'}
         </button>
@@ -54,8 +54,8 @@ export function BackupMnemonic({ mnemonic, onConfirm }: BackupMnemonicProps) {
       <label className="flex items-start gap-3 cursor-pointer">
         <input
           type="checkbox"
-          className="mt-1 w-4 h-4 rounded border-dark-600 bg-dark-800 text-smt-500
-                     focus:ring-smt-500 focus:ring-offset-0"
+          className="mt-1 w-4 h-4 rounded border-dark-600 bg-dark-800 text-ratr-500
+                     focus:ring-ratr-500 focus:ring-offset-0"
           checked={confirmed}
           onChange={(e) => setConfirmed(e.target.checked)}
         />

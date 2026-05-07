@@ -20,7 +20,7 @@ export function UnlockWallet({ address, onUnlock, onLogout, loading, error }: Un
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <img src={logo} alt="Smartiecoin" className="w-16 h-16 rounded-2xl mx-auto mb-4" />
+        <img src={logo} alt="Ratatoskr" className="w-16 h-16 rounded-2xl mx-auto mb-4" />
         <h1 className="text-2xl font-bold">Welcome Back</h1>
         <p className="text-dark-400 mt-2 font-mono text-sm">
           {address.slice(0, 8)}...{address.slice(-6)}

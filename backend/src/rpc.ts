@@ -1,6 +1,6 @@
 import http from 'http';
 
-const RPC_USER = process.env.RPC_USER || 'smt_rpc';
+const RPC_USER = process.env.RPC_USER || 'ratr_rpc';
 const RPC_PASS = process.env.RPC_PASS || '';
 const RPC_HOST = process.env.RPC_HOST || '127.0.0.1';
 const RPC_PORT = parseInt(process.env.RPC_PORT || '8282', 10);

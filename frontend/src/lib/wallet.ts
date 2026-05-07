@@ -3,7 +3,7 @@ import BIP32Factory, { type BIP32API } from 'bip32';
 import * as ecc from 'tiny-secp256k1';
 import { payments } from 'bitcoinjs-lib';
 import { Buffer } from 'buffer';
-import { smartiecoin, DERIVATION_PATH } from './network';
+import { ratatoskr, DERIVATION_PATH } from './network';
 
 let _bip32: BIP32API | null = null;
 function getBip32(): BIP32API {
@@ -29,7 +29,7 @@ export function deriveFromMnemonic(mnemonic: string): {
   publicKey: Uint8Array;
 } {
   const seed = bip39.mnemonicToSeedSync(mnemonic);
-  const root = getBip32().fromSeed(Buffer.from(seed), smartiecoin);
+  const root = getBip32().fromSeed(Buffer.from(seed), ratatoskr);
   const child = root.derivePath(DERIVATION_PATH);
 
   if (!child.privateKey) {
@@ -38,7 +38,7 @@ export function deriveFromMnemonic(mnemonic: string): {
 
   const { address } = payments.p2pkh({
     pubkey: Buffer.from(child.publicKey),
-    network: smartiecoin,
+    network: ratatoskr,
   });
 
   if (!address) {
@@ -177,12 +177,12 @@ export async function unlockWallet(
 
 // Save wallet to localStorage
 export function saveWallet(walletData: WalletData): void {
-  localStorage.setItem('smt_wallet', JSON.stringify(walletData));
+  localStorage.setItem('ratr_wallet', JSON.stringify(walletData));
 }
 
 // Load wallet from localStorage
 export function loadWallet(): WalletData | null {
-  const raw = localStorage.getItem('smt_wallet');
+  const raw = localStorage.getItem('ratr_wallet');
   if (!raw) return null;
   try {
     return JSON.parse(raw) as WalletData;
@@ -193,5 +193,5 @@ export function loadWallet(): WalletData | null {
 
 // Delete wallet from localStorage
 export function deleteWallet(): void {
-  localStorage.removeItem('smt_wallet');
+  localStorage.removeItem('ratr_wallet');
 }

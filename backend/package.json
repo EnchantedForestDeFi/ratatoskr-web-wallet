@@ -1,7 +1,7 @@
 {
-  "name": "smartiecoin-wallet-api",
+  "name": "ratatoskr-wallet-api",
   "version": "1.0.0",
-  "description": "API proxy for Smartiecoin Web Wallet",
+  "description": "API proxy for Ratatoskr Web Wallet",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",

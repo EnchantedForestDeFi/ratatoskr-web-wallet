@@ -22,15 +22,15 @@ function App() {
         return (
           <div className="space-y-8 text-center py-12">
             <div>
-              <img src={logoImg} alt="Smartiecoin" className="w-20 h-20 rounded-3xl mx-auto mb-6" />
-              <h1 className="text-3xl font-bold">Smartiecoin Wallet</h1>
+              <img src={logoImg} alt="Ratatoskr" className="w-20 h-20 rounded-3xl mx-auto mb-6" />
+              <h1 className="text-3xl font-bold">Ratatoskr Wallet</h1>
               <p className="text-dark-400 mt-3 max-w-md mx-auto">
                 Secure, non-custodial web wallet. Your keys never leave your browser.
               </p>
             </div>
 
             <div className="card bg-dark-800/50 text-left max-w-md mx-auto space-y-3">
-              <h3 className="text-sm font-semibold text-smt-400">Self-Custody Wallet</h3>
+              <h3 className="text-sm font-semibold text-ratr-400">Self-Custody Wallet</h3>
               <ul className="text-xs text-dark-300 space-y-2">
                 <li className="flex items-start gap-2">
                   <span className="text-green-400 mt-0.5">&#10003;</span>

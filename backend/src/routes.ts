@@ -58,8 +58,8 @@ async function buildUtxos(address: string): Promise<Array<{
 
 const router = Router();
 
-// Validate Smartiecoin address format (starts with S or R, base58)
-const ADDRESS_RE = /^[SR][1-9A-HJ-NP-Za-km-z]{25,34}$/;
+// Validate Ratatoskr address format (starts with S or R, base58)
+const ADDRESS_RE = /^[Ry][1-9A-HJ-NP-Za-km-z]{25,34}$/;
 const TXID_RE = /^[0-9a-fA-F]{64}$/;
 
 function isValidAddress(addr: string): boolean {

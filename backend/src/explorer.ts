@@ -29,7 +29,7 @@ export interface ExplorerUtxo {
   height: number;
 }
 
-// Get balance for address (returns balance in coins, we convert to duffs)
+// Get balance for address (returns balance in coins, we convert to satoshis)
 export async function getBalance(address: string): Promise<{
   balance: number;
   received: number;

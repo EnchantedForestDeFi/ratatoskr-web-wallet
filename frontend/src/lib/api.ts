@@ -20,9 +20,9 @@ async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
 }
 
 export interface BalanceResponse {
-  balance: number;   // in duffs
-  received: number;  // in duffs
-  sent: number;      // in duffs
+  balance: number;   // in satoshis
+  received: number;  // in satoshis
+  sent: number;      // in satoshis
 }
 
 export async function fetchBalance(address: string): Promise<BalanceResponse> {

@@ -1,14 +1,14 @@
-# Smartiecoin Web Wallet v1.0.0
+# Ratatoskr Web Wallet v1.0.0
 
-**The first official non-custodial web wallet for Smartiecoin (SMT).**
+**The first official non-custodial web wallet for Ratatoskr (RATR).**
 
-Live at: [wallet.smartiecoin.com](https://wallet.smartiecoin.com)
+Live at: [wallet.ratatoskr.enchantedforestdefi.com](https://wallet.ratatoskr.enchantedforestdefi.com)
 
 ---
 
 ## What is it?
 
-Smartiecoin Web Wallet is a browser-based, self-custody wallet that lets you create, manage, send, and receive SMT — all without trusting a third party with your private keys.
+Ratatoskr Web Wallet is a browser-based, self-custody wallet that lets you create, manage, send, and receive RATR — all without trusting a third party with your private keys.
 
 Your keys are generated and stored **only in your browser**, encrypted with your password using AES-256-GCM. The server never sees or stores any private keys, mnemonics, or passwords.
 
@@ -16,10 +16,10 @@ Your keys are generated and stored **only in your browser**, encrypted with your
 
 - **Create a new wallet** — generates a BIP39 12-word recovery phrase
 - **Import an existing wallet** — restore from your 12-word recovery phrase
-- **Send SMT** — build and sign transactions entirely in the browser
-- **Receive SMT** — display your address with a QR code for easy sharing
+- **Send RATR** — build and sign transactions entirely in the browser
+- **Receive RATR** — display your address with a QR code for easy sharing
 - **Transaction history** — view your recent incoming and outgoing transactions
-- **Real-time balance** — fetched directly from the Smartiecoin blockchain
+- **Real-time balance** — fetched directly from the Ratatoskr blockchain
 - **Copy recovery phrase** — one-click copy for safe backup
 - **Modern dark UI** — clean, responsive design inspired by MetaMask and Phantom
 
@@ -50,7 +50,7 @@ Your keys are generated and stored **only in your browser**, encrypted with your
 └──────────────────────────┘          └──────────────────────────┘
 ```
 
-The backend is a lightweight API proxy that connects to a Smartiecoin full node. It only provides:
+The backend is a lightweight API proxy that connects to a Ratatoskr full node. It only provides:
 - Balance lookups
 - UTXO data for transaction building
 - Transaction history
@@ -69,7 +69,7 @@ The backend is a lightweight API proxy that connects to a Smartiecoin full node.
 
 ### Backend
 - Node.js + Express + TypeScript
-- RPC client for Smartiecoin Core
+- RPC client for Ratatoskr Core
 - Explorer API integration (eIquidus)
 - express-rate-limit
 
@@ -77,7 +77,7 @@ The backend is a lightweight API proxy that connects to a Smartiecoin full node.
 - Docker Compose
 - Nginx reverse proxy with SSL (Let's Encrypt)
 
-## Smartiecoin Network Parameters
+## Ratatoskr Network Parameters
 
 | Parameter | Value |
 |-----------|-------|
@@ -86,12 +86,12 @@ The backend is a lightweight API proxy that connects to a Smartiecoin full node.
 | WIF prefix | `0x80` |
 | BIP44 coin type | `5001` |
 | Derivation path | `m/44'/5001'/0'/0/0` |
-| Smallest unit | 1 duff = 0.00000001 SMT |
+| Smallest unit | 1 satoshi = 0.00000001 RATR |
 
 ## Self-Hosting
 
 ### Prerequisites
-- A running Smartiecoin full node with RPC enabled
+- A running Ratatoskr full node with RPC enabled
 - Docker and Docker Compose
 - Nginx with SSL (recommended)
 
@@ -129,11 +129,11 @@ The backend is a lightweight API proxy that connects to a Smartiecoin full node.
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `PORT` | `3001` | API server port |
-| `RPC_HOST` | `127.0.0.1` | Smartiecoin RPC host |
-| `RPC_PORT` | `8282` | Smartiecoin RPC port |
-| `RPC_USER` | `smt_rpc` | RPC username |
+| `RPC_HOST` | `127.0.0.1` | Ratatoskr RPC host |
+| `RPC_PORT` | `8282` | Ratatoskr RPC port |
+| `RPC_USER` | `ratr_rpc` | RPC username |
 | `RPC_PASS` | — | RPC password (required) |
-| `CORS_ORIGIN` | `https://wallet.smartiecoin.com` | Allowed CORS origin |
+| `CORS_ORIGIN` | `https://wallet.ratatoskr.enchantedforestdefi.com` | Allowed CORS origin |
 | `EXPLORER_URL` | `http://127.0.0.1:8092` | eIquidus explorer URL |
 
 ## License
@@ -142,7 +142,7 @@ MIT
 
 ## Links
 
-- **Website:** [smartiecoin.com](https://smartiecoin.com)
-- **Explorer:** [explorer.smartiecoin.com](https://explorer.smartiecoin.com)
-- **Wallet:** [wallet.smartiecoin.com](https://wallet.smartiecoin.com)
+- **Website:** [ratatoskr.com](https://ratatoskr.com)
+- **Explorer:** [explorer.ratatoskr.com](https://explorer.ratatoskr.com)
+- **Wallet:** [wallet.ratatoskr.enchantedforestdefi.com](https://wallet.ratatoskr.enchantedforestdefi.com)
 - **GitHub:** [github.com/SmartiesCoin](https://github.com/SmartiesCoin)

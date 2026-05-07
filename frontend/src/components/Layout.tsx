@@ -26,8 +26,8 @@ export function Layout({
       <header className="border-b border-dark-800 bg-dark-900/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src={logo} alt="Smartiecoin" className="w-9 h-9 rounded-lg" />
-            <span className="font-bold text-lg">Smartiecoin</span>
+            <img src={logo} alt="Ratatoskr" className="w-9 h-9 rounded-lg" />
+            <span className="font-bold text-lg">Ratatoskr</span>
           </div>
 
           {address && (
@@ -66,7 +66,7 @@ export function Layout({
                 onClick={() => onNavigate(tab.id)}
                 className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 ${
                   activeView === tab.id
-                    ? 'border-smt-500 text-smt-400'
+                    ? 'border-ratr-500 text-ratr-400'
                     : 'border-transparent text-dark-400 hover:text-white'
                 }`}
               >
