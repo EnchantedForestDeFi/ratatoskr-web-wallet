@@ -92,13 +92,33 @@ export async function getAddressTxs(
   length = 50
 ): Promise<ExplorerTx[]> {
   try {
-    const data = await explorerFetch<ExplorerTx[] | { error: string }>(
+    const data = await explorerFetch<unknown[] | { error: string }>(
       `/ext/getaddresstxs/${address}/${start}/${length}`
     );
     if (!Array.isArray(data)) {
       return [];
     }
-    return data;
+    // eIquidus returns sent/received/balance as strings (not numbers).
+    // Coerce to numbers so the frontend interface holds and History.tsx
+    // can call .toFixed() without throwing.
+    // eIquidus convention quirk: `sent` = outputs flowing TO this address (gain),
+    // `received` = inputs consumed FROM this address (paid). User mental model is opposite.
+    // Compute net so frontend's `isReceived = tx.received > 0` shows direction correctly:
+    //   pure receive:  net > 0  -> received=net, sent=0   -> "Received +N"
+    //   pure send:     net < 0  -> received=0,   sent=-net -> "Sent -N" (with change correctly netted)
+    return data.map((tx) => {
+      const t = tx as Record<string, unknown>;
+      const eGainedFromOutputs = Number(t.sent ?? 0);
+      const ePaidInInputs = Number(t.received ?? 0);
+      const net = eGainedFromOutputs - ePaidInInputs;
+      return {
+        txid: String(t.txid ?? ''),
+        timestamp: Number(t.timestamp ?? 0),
+        received: net > 0 ? net : 0,
+        sent: net < 0 ? -net : 0,
+        balance: Number(t.balance ?? 0),
+      };
+    });
   } catch {
     return [];
   }
