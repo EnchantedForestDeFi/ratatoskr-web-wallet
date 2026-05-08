@@ -2,7 +2,7 @@ import { Psbt, Transaction } from 'bitcoinjs-lib';
 import ECPairFactory, { type ECPairAPI } from 'ecpair';
 import * as ecc from 'tiny-secp256k1';
 import { Buffer } from 'buffer';
-import { ratatoskr, COIN, DEFAULT_FEE_RATE, API_BASE } from './network';
+import { activeNetwork, COIN, DEFAULT_FEE_RATE, API_BASE } from './network';
 import { fetchUtxos } from './api';
 
 let _ECPair: ECPairAPI | null = null;
@@ -97,10 +97,10 @@ export async function buildTransaction(params: {
 
   // Build the transaction using Psbt
   const keyPair = getECPair().fromPrivateKey(Buffer.from(privateKey), {
-    network: ratatoskr,
+    network: activeNetwork,
   });
 
-  const psbt = new Psbt({ network: ratatoskr });
+  const psbt = new Psbt({ network: activeNetwork });
 
   // Add inputs with nonWitnessUtxo for P2PKH
   for (const utxo of selected) {
