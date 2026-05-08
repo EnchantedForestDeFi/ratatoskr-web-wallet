@@ -37,11 +37,12 @@ export const ratatoskrTestnet: networks.Network = {
 // Default to mainnet; flip via env at build time:
 //   VITE_RATR_NETWORK=testnet  → testnet
 //   anything else / unset      → mainnet
-const networkSelection = (import.meta.env.VITE_RATR_NETWORK || 'mainnet').toLowerCase();
-export const activeNetwork = networkSelection === 'testnet' ? ratatoskrTestnet : ratatoskr;
-export const isTestnet = networkSelection === 'testnet';
+// HARDCODED to testnet for the May testnet validation period.
+// At T-0 (June 1): change to `ratatoskr` and isTestnet=false. See git log for env-driven version.
+export const activeNetwork = ratatoskrTestnet;
+export const isTestnet = true;
 
-export const BIP44_COIN_TYPE = isTestnet ? 1 : 530;
+export const BIP44_COIN_TYPE = 1;
 export const DERIVATION_PATH = `m/44'/${BIP44_COIN_TYPE}'/0'/0/0`;
 
 // 1 RATR = 100,000,000 satoshis
